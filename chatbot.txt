@@ -1,0 +1,222 @@
+import numpy as np
+from matplotlib import pyplot as plt
+from IPython.display import Javascript
+
+def main():
+
+  print("Hello, we are the 7/11 Covid information Chatbox.")
+  print("What's your name?")
+  global stringName
+  stringName = input("> ").strip()
+  askDidTheyGetVaccine()
+
+
+
+  print("\nThe below bar graph compares the effectiveness of the vaccines.",
+        "\n(Press enter to continue.)")
+  pause = input("> ")
+
+
+  displayVaccineEfficaciesGraph()
+
+  print("\n(Press enter to continue.)")
+  pause = input("> ")
+  printGoodByeMessage()
+
+def askDidTheyGetVaccine():
+
+  print("Did you get your Covid-19 vaccine, " + stringName + "? \n(Enter \"Y\" for yes, \"N\" for no.)")
+
+  global booleanHasVaccine1of2
+  booleanHasVaccine1of2 = "null"
+  booleanHasVaccine1of2 = input("> ")
+
+  if (booleanHasVaccine1of2.strip().lower() == "Y".lower()):
+
+    global booleanHasVaccine2of2
+    booleanHasVaccine2of2 = True
+
+    determineWhichVaccine()
+  elif (booleanHasVaccine1of2.strip().lower() == "N".lower()):
+
+    booleanHasVaccine2of2 = False
+
+    encourageToTakeVaccine()
+  else:
+    print("Please enter a valid answer.")
+    askDidTheyGetVaccine()
+    # Ask again; recursive function
+
+def determineWhichVaccine():
+
+  global stringintVaccineName, stringVaccineName
+  stringintVaccineName = "null"
+  stringVaccineName = "null"
+
+  print("That’s great! Which vaccine did you get? ",
+  "\n(Enter \"1\" for Johnsons and Johnsons, \"2\" for Moderna, \"3\" for Pfizer.)")
+  stringintVaccineName = input("> ").strip()
+
+  if (booleanHasVaccine1of2 != "null"):
+    if (stringintVaccineName == "1"):
+        stringVaccineName = "Johnsons & Johnsons"
+    elif (stringintVaccineName == "2"):
+        stringVaccineName = "Moderna"
+    elif (stringintVaccineName == "3"):
+        stringVaccineName = "Pfizer"
+    else:
+      print("Invalid vaccine name.")
+      stringVaccineName = "null"
+      determineWhichVaccine()
+
+    print("You got the " + stringVaccineName + " vaccine. I congratulate you!")
+
+    askIfTheyExperiencedSideEffects()
+
+def askIfTheyExperiencedSideEffects():
+
+  print("Okay. I have a few questions for you.",
+        "Did you experience any side effects?"
+        "\n(Enter \"Y\" for yes, \"N\" for no.)")
+
+  booleanDidExperienceSideEffects1of2 = "null"
+  booleanDidExperienceSideEffects1of2 = input("> ")
+
+  global booleanDidExperienceSideEffects2of2
+  booleanDidExperienceSideEffects2of2 = "null"
+
+  if booleanDidExperienceSideEffects1of2 != "null":
+    if booleanDidExperienceSideEffects1of2.strip().lower() == "Y".lower():
+      booleanDidExperienceSideEffects2of2 = True
+
+      giveInfoSideEffects()
+
+    elif booleanDidExperienceSideEffects1of2.strip().lower() == "N".lower():
+      booleanDidExperienceSideEffects2of2 = False
+
+      giveInfoPotentialSideEffects()
+    else:
+      booleanDidExperienceSideEffects2of2 = "null"
+      askIfTheyExperiencedSideEffects()
+
+def giveInfoSideEffects():
+  if (stringVaccineName == "Johnsons & Johnsons"):
+    print("Common ones for this vaccine are: pain, redness, and swelling in the arm with the vaccine, and fatigue, headaches, chills, fever, muscle pains, and nausea. If you did get these effects, they should go away in a few days. However, there are a few more serious effects you should watch out for and go to a doctor. These are: severe headaches w/ blurred vision, shortness of breath, chest pains, leg swelling, abdominal pain, and easy bruising or tiny blood spots because they are a sign of extremely rare but sometimes deadly blood clots.")
+  elif (stringVaccineName == "Moderna"):
+    print("Common ones for this vaccine are: Joint pain, muscle pain, low energy, chills, headache. If you did get these effects, they should go away in a few days. However, there are a few more effects you should watch out for and go to a doctor. These are: High fever, Swollen lymph nodes, nausea, vomiting, inflammation of the covering of the heart or the pericardium")
+  elif (stringVaccineName == "Pfizer"):
+    print("Common side effects for Pfizer are: Tenderness and or swelling of the area of injection, Headache, Muscle ache, feeling tired, Fatigue and fever. Some Uncommon side effects are Myocarditis, Pericarditis, Heart attack, Temporary one sided face drooping and Allergic reactions. Does any of those side effects apply to you?")
+  else:
+    # Do nothing.
+    print("")
+
+def giveInfoPotentialSideEffects():
+  if (stringVaccineName == "Johnsons & Johnsons"):
+    print("That’s great! Here are some common ones for this vaccine, just in case you express it: pain, redness, and swelling in the arm with the vaccine, and fatigue, headaches, chills, fever, muscle pains, and nausea. If you did get these effects, they should go away in a few days. However, there are a few more serious effects you should watch out for and go to a doctor. These are: severe headaches w/ blurred vision, shortness of breath, chest pains, leg swelling, abdominal pain, and easy bruising or tiny blood spots because they are a sign of extremely rare but sometimes deadly blood clots.")
+  elif (stringVaccineName == "Moderna"):
+    print("That's great! Common ones for this vaccine are: Joint pain, muscle pain, low energy, chills, headache. If you did get these effects, they should go away in a few days. However, there are a few more effects you should watch out for and go to a doctor. These are: High fever, Swollen lymph nodes, nausea, vomiting, inflammation of the covering of the heart or the pericardium",
+          "\n(Press enter to continue to site.)")
+    pause = input("> ")
+
+    url  = 'https://www.webmd.com/drugs/2/drug-180345/moderna-covid-19-vaccine-pfeua-intramuscular/details/list-sideeffects'
+    display(Javascript('window.open("{url}", "_blank");'.format(url=url)))
+  elif (stringVaccineName == "Pfizer"):
+    print("That’s great! Here are some common ones for this vaccine, just in case you express it: Tenderness and or swelling of the area of injection, headache, muscle ache, fatigue, and fever. Some uncommon side effects are Myocarditis, Pericarditis, Heart attack, temporary one sided face drooping and allergic reactions. If you do get any of these side effects go to the doctor just in case. Stay safe.")
+  else:
+    # Do nothing.
+    print()
+
+def encourageToTakeVaccine():
+
+  print("That’s a shame, we do encourage it. "
+        "Are you hesitant about taking the vaccine? "
+        "\n(Enter \"Y\" for yes, \"N\" for no.)")
+
+  global booleanIsHesitant1of2
+  booleanIsHesitant1of2 = "null"
+  booleanIsHesitant1of2 = input("> ")
+
+  global booleanIsHesitant2of2
+  booleanIsHesitant2of2 = "null"
+
+  if (booleanIsHesitant1of2.strip().lower() == "Y".lower()):
+
+      booleanIsHesitant2of2 = True
+
+      print("\tWe understand your concern, but would highly recommend you to get the vaccine for your health and those around you. "
+            "If you’re still not sure, here are a few benefits of the Covid 19 vaccine. "
+            "The vaccine is safe, COVID-19 vaccines were developed using science that has been around for decades, they are not experimental. "
+            "They went through all the required stages of clinical trials. "
+            "Extensive testing and monitoring have shown that these vaccines are safe and effective. "
+            "\n\tOnce you are fully vaccinated, you can start doing more, you can resume many activities that you did before the pandemic. "
+            "You can resume activities without wearing a mask or staying 6 feet apart, except where required by federal, state, local, tribal, or territorial laws, rules, and regulations, including local business and workplace guidance."
+            "Immunity after COVID-19 vaccination."
+            "There is still a lot we are learning about COVID-19 vaccines and CDC is constantly reviewing evidence and updating guidance."
+            "We don’t know how long protection lasts for those who are vaccinated."
+            "\t\nWhat we do know is that COVID-19 has caused very serious illness and death for a lot of people."
+            "If you get COVID-19, you also risk giving it to loved ones who may get very sick."
+            "Getting a COVID-19 vaccine is a safer choice.")
+
+  elif (booleanIsHesitant1of2.strip().lower() == "N".lower()):
+
+    booleanIsHesitant2of2 = False
+
+    print("If you have no qualms about getting the vaccine, here are a few links to sign up for a vaccine.",
+          "\n(Press enter to continue to site.) ")
+
+    pause = input("> ")
+
+    url = 'https://www.cvs.com/store-locator/cvs-pharmacy-locations/covid-vaccine/Texas/Katy'
+    display(Javascript('window.open("{url}", "_blank");'.format(url=url)))
+
+  else:
+    print("Please enter a valid answer.")
+    encourageToTakeVaccine()
+
+def askToSeeVaccineEfficacyBarGraph():
+  print("Would you like to see a graphical representation of the vaccines' effectiveness?")
+
+  booleanWantToSeeVaccineEfficacyBarGraph1of2 = "null"
+  booleanWantToSeeVaccineEfficacyBarGraph1of2 = input("> ")
+
+  global booleanWantToSeeVaccineEfficacyBarGraph2of2
+  booleanWantToSeeVaccineEfficacyBarGraph2of2 = "null"
+
+  if booleanWantToSeeVaccineEfficacyBarGraph1of2 != "null":
+    if booleanDidExperienceSideEffects1of2.strip().lower() == "Y".lower():
+      booleanWantToSeeVaccineEfficacyBarGraph2of2 = True
+
+      displayVaccineEfficaciesGraph()
+
+    elif booleanDidExperienceSideEffects1of2.strip().lower() == "N".lower():
+      booleanWantToSeeVaccineEfficacyBarGraph2of2 = False
+
+      print("Nevermind then, if you do not want to see the graph." )
+
+    else:
+      booleanWantToSeeVaccineEfficacyBarGraph2of2 = "null"
+      print("Please enter a valid answer.")
+      askToSeeVaccineEfficacyBarGraph()
+
+def printGoodByeMessage():
+
+  print ("Thank you for chatting with me! "
+         "I hope I have been able to answer any doubts you may have had regarding the Covid vaccines and reactions. "
+         "If you have any more questions, contact your doctor and I’m sure they’ll be glad to answer them. "
+         "Have a great rest of the day!")
+
+def displayVaccineEfficaciesGraph():
+
+  print("Here is a quick graph comparing the efficacies of the three vaccines.\n")
+
+  x = np.array(["J&J", "Moderna", "Pfizer"])
+  y = np.array([72, 94.1, 95])
+
+  plt.bar(x,y, width=0.4)
+  plt.xlabel("Vaccine Name")
+  plt.ylabel("Percent Efficacy (%)")
+  plt.title("Vaccine Efficacies")
+  plt.show()
+
+main()
+
